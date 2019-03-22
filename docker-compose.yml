@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  db:
+    image: mysql
+    environment:
+      MYSQL_USER: gotest
+      MYSQL_PASSWORD: gotest
+      MYSQL_ROOT_PASSWORD: gotest
+      MYSQL_DATABASE: crr
+    volumes:
+      - ./mysql/data-dump.sql:/docker-entrypoint-initdb.d/data-dump.sql
+      - ./mysql/data-dump.sql:/docker-entrypoint-initdb.d/account-setup.sql
+    ports:
+      - "3306:3306"
+      - "8000:8000"
+  web:
+    build: .
+    depends_on:
+      - db
+    command: bash -c "./wait-for-it.sh -t 0 db:3306 -- go run main.go"
+    network_mode: "service:db"
+networks:
+   public:
+      external: true
