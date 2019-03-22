@@ -30,7 +30,7 @@ func main() {
 		port = "8000"
 	}
 
-	fmt.Println("It works on http://localhost:" + port + "/api")
+	fmt.Println("It works on http://localhost:" + port + "/api address")
 
 	allowedOrigins := handlers.AllowedOrigins([]string{"*"})
 	allowedHeaders := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
@@ -39,6 +39,6 @@ func main() {
 	err := http.ListenAndServe(":"+port, handlers.CORS(allowedOrigins, allowedMethods, allowedHeaders)(router))
 	if err != nil {
 		fmt.Print(err)
-	}
+	} 
 
 }
