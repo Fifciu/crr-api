@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	models "github.com/filipjedrasik/crr-api/models"
-	u "github.com/filipjedrasik/crr-api/utils"
+	models "github.com/filipjedrasik/crr-api/go/models"
+	u "github.com/filipjedrasik/crr-api/go/utils"
 )
 
 func CreateAccount(w http.ResponseWriter, r *http.Request) {

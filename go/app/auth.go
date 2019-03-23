@@ -8,8 +8,8 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 
-	models "github.com/filipjedrasik/crr-api/models"
-	u "github.com/filipjedrasik/crr-api/utils"
+	models "github.com/filipjedrasik/crr-api/go/models"
+	u "github.com/filipjedrasik/crr-api/go/utils"
 )
 
 func JwtAuthentication(next http.Handler) http.Handler {
