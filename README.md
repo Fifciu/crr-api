@@ -1,8 +1,8 @@
 # Websocket client
 ## Created for testing Websocket live chat
 
-View: index.html
-Working with Websocket and getting chat history: js/main.js
+View: index.html    
+Working with Websocket and getting chat history: js/main.js    
 
 ### Connecting with WebSocket
 ```
@@ -29,9 +29,9 @@ this.ws.send(
     })
 )
 ```
-You do not need to send anything more than message because server will recognize who you are by Token.
+You do not need to send anything more than message because server will recognize who you are by Token.    
 
 
 ### Getting every message that has been ever sent
-GET /api/chat/history
-Needs Authorization header with value Basic <token>
+GET /api/chat/history    
+Needs Authorization header with value Basic <token>    
