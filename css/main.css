@@ -1,0 +1,12 @@
+#app{
+    padding: 10% 0;
+}
+
+.token-wrapper {
+    padding: 20px 0;
+}
+
+.my-wrapper{
+    height: 400px !important;
+    overflow: scroll;
+}

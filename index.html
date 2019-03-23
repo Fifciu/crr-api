@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>WebSocket Client for CRR</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <div id="app">
+                <div class="container">
+                        <div class="my-wrapper">
+                                <ul class="list-group">
+                                        <li class="list-group-item active">Czat</li>
+                                        <li class="list-group-item" v-for="message in messages" :key="message.createdAt">
+                                            <em>{{message.createdAt}}</em> <strong>{{message.name}}</strong>
+                                            <p>{{message.message}}</p>
+                                        </li>
+                                        
+                                    </ul>
+                        </div>
+
+                        <div class="row">
+                                <div class="col-10">
+                                        <label for="message" class="sr-only">Wiadomość</label>
+                                        <input 
+                                            @keyup.enter="submit"
+                                            v-model="message" 
+                                            type="text" class="form-control" id="message" placeholder="Wiadomość">
+                                </div>
+                                <div class="col-2">
+                                        <button @click="submit" class="btn btn-primary mb-2">Wyślij</button>
+                                </div>
+                        </div>
+                        
+                        <div class="token-wrapper">
+                                <label for="token" class="sr-only">Token</label>
+                                <input 
+                                    v-model="token" 
+                                    type="text" class="form-control" id="token" placeholder="Token">
+                        </div>
+                    </div>
+        </div>
+        <script src="js/vue.min.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>
