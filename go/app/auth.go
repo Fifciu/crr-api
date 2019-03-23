@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 	"strings"
@@ -25,7 +26,17 @@ func JwtAuthentication(next http.Handler) http.Handler {
 		}
 
 		response := make(map[string]interface{})
-		tokenHeader := r.Header.Get("Authorization")
+		tokenHeader := ""
+
+		if strings.Contains(requestPath, "/api/chat/live") {
+			value := r.URL.Query().Get("token")
+
+			if value != "" {
+				tokenHeader = fmt.Sprintf("Basic %s", value)
+			}
+		} else {
+			tokenHeader = r.Header.Get("Authorization")
+		}
 
 		if tokenHeader == "" {
 			response = u.Message(false, "Brak tokena")
