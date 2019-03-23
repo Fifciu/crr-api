@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `message`
 --
 
-CREATE TABLE `message` IF NOT EXISTS (
+CREATE TABLE `message` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `message` text CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
@@ -51,7 +51,7 @@ INSERT INTO `message` (`id`, `user_id`, `message`, `created_at`) VALUES
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` IF NOT EXISTS (
+CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   `email` varchar(128) NOT NULL,

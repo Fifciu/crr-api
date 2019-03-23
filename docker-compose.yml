@@ -9,8 +9,8 @@ services:
       MYSQL_ROOT_PASSWORD: gotest
       MYSQL_DATABASE: crr
     volumes:
-      - ./mysql/data-dump.sql:/docker-entrypoint-initdb.d/data-dump.sql
-      - ./mysql/data-dump.sql:/docker-entrypoint-initdb.d/account-setup.sql
+      - ./db/data-dump.sql:/docker-entrypoint-initdb.d/data-dump.sql
+      - ./db/account-setup.sql:/docker-entrypoint-initdb.d/account-setup.sql
     ports:
       - "3306:3306"
       - "8000:8000"
