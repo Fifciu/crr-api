@@ -22,7 +22,6 @@ func init() {
 	dbName := os.Getenv("db_name")
 
 	dbUri := fmt.Sprintf("%s:%s@/%s?charset=utf8&parseTime=True&loc=Local", username, password, dbName)
-	fmt.Println(dbUri)
 
 	conn, err := gorm.Open("mysql", dbUri)
 	if err != nil {

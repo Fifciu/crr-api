@@ -19,13 +19,14 @@ type Token struct {
 }
 
 type User struct {
-	ID        uint      `gorm:"primary_key" json:"id"`
-	Name      string    `json:"name"`
-	Email     string    `json:"email"`
-	Password  string    `json:"password"`
-	CreatedAt time.Time `json:"createdAt"`
-	LastVisit time.Time `json:"lastVisit"`
-	Token     string    `gorm:"-" json:"token"`
+	ID            uint      `gorm:"primary_key" json:"id"`
+	Name          string    `json:"name"`
+	Email         string    `json:"email"`
+	Password      string    `json:"password"`
+	TicketExpires time.Time `json:"ticketExpires"`
+	CreatedAt     time.Time `json:"createdAt"`
+	LastVisit     time.Time `json:"lastVisit"`
+	Token         string    `gorm:"-" json:"token"`
 }
 
 func (user User) TableName() string {
@@ -59,22 +60,6 @@ func (user *User) Validate() (map[string]interface{}, bool) {
 	return u.Message(false, "Udało się zwalidować"), true
 }
 
-func SaveVisit(userId uint) (time.Time, error) {
-	newTime := time.Now().UTC()
-	user := &User{}
-	err := GetDB().Table("user").Where("id = ?", userId).First(user).Error
-	if err != nil {
-		return newTime, errors.New("Wystąpił błąd")
-	}
-
-	err = GetDB().Model(&user).Update("last_visit", newTime).Error
-	if err != nil {
-		return newTime, errors.New("Wystąpił błąd")
-	}
-
-	return newTime, nil
-}
-
 func (user *User) Create() map[string]interface{} {
 	if resp, ok := user.Validate(); !ok {
 		return resp
@@ -105,6 +90,22 @@ func (user *User) Create() map[string]interface{} {
 	response := u.Message(true, "Konto zostało utworzone")
 	response["user"] = user
 	return response
+}
+
+func SaveVisit(userId uint) (time.Time, error) {
+	newTime := time.Now().UTC()
+	user := &User{}
+	err := GetDB().Table("user").Where("id = ?", userId).First(user).Error
+	if err != nil {
+		return newTime, errors.New("Wystąpił błąd")
+	}
+
+	err = GetDB().Model(&user).Update("last_visit", newTime).Error
+	if err != nil {
+		return newTime, errors.New("Wystąpił błąd")
+	}
+
+	return newTime, nil
 }
 
 func Login(email, password string) map[string]interface{} {
@@ -156,4 +157,22 @@ func GetUser(u uint) *User {
 
 	user.Password = ""
 	return user
+}
+
+func BuyTicket(u uint) time.Time {
+	user := &User{}
+	err := GetDB().Table("user").Where("id = ?", u).First(user).Error
+	if err != nil {
+		return time.Time{}
+	}
+
+	if user.TicketExpires.IsZero() {
+		user.TicketExpires = time.Now().AddDate(0, 0, 30).UTC()
+	} else {
+		user.TicketExpires = user.TicketExpires.AddDate(0, 0, 30).UTC()
+	}
+
+	GetDB().Save(&user)
+
+	return user.TicketExpires
 }

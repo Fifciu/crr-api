@@ -40,8 +40,8 @@ func JwtAuthentication(next http.Handler) http.Handler {
 
 		if tokenHeader == "" {
 			response = u.Message(false, "Brak tokena")
-			w.WriteHeader(http.StatusForbidden)
 			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusForbidden)
 			u.Respond(w, response)
 			return
 		}
@@ -49,8 +49,8 @@ func JwtAuthentication(next http.Handler) http.Handler {
 		splitted := strings.Split(tokenHeader, " ")
 		if len(splitted) != 2 {
 			response = u.Message(false, "Zły token")
-			w.WriteHeader(http.StatusForbidden)
 			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusForbidden)
 			u.Respond(w, response)
 			return
 		}
@@ -64,16 +64,16 @@ func JwtAuthentication(next http.Handler) http.Handler {
 
 		if err != nil {
 			response = u.Message(false, "Podrobiony token")
-			w.WriteHeader(http.StatusForbidden)
 			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusForbidden)
 			u.Respond(w, response)
 			return
 		}
 
 		if !token.Valid {
 			response = u.Message(false, "Błędny token")
-			w.WriteHeader(http.StatusForbidden)
 			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusForbidden)
 			u.Respond(w, response)
 			return
 		}

@@ -25,12 +25,15 @@ func main() {
 	router.HandleFunc("/api/user/refresh",
 		controllers.Refresh).Methods("GET")
 
+	router.HandleFunc("/api/ticket/buy",
+		controllers.Ticket).Methods("POST")
+
 	// ws://localhost:8000/api/chat?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjR9.sz7T_Jlg7jCC6ogiBHmZMUAVXn6rTkEaA9F3TVEh5u8
 	router.HandleFunc("/api/chat/live",
 		controllers.HandleConnection)
 
 	router.HandleFunc("/api/chat/history",
-		controllers.History)
+		controllers.History).Methods("GET")
 
 	port := os.Getenv("PORT")
 	if port == "" {
