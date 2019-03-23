@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/filipjedrasik/crr-api/go/models"
-	u "github.com/filipjedrasik/crr-api/go/utils"
+	"github.com/filipjedrasik/crr-api/models"
+	u "github.com/filipjedrasik/crr-api/utils"
 	"github.com/gorilla/websocket"
 )
 

@@ -10,7 +10,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 
-	u "github.com/filipjedrasik/crr-api/go/utils"
+	u "github.com/filipjedrasik/crr-api/utils"
 )
 
 type Token struct {

@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"os"
 
-	app "github.com/filipjedrasik/crr-api/go/app"
-	controllers "github.com/filipjedrasik/crr-api/go/controllers"
+	app "github.com/filipjedrasik/crr-api/app"
+	controllers "github.com/filipjedrasik/crr-api/controllers"
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
