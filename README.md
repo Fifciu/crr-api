@@ -59,7 +59,7 @@ Returns if failed:
 }
 ```
 
-POST /api/user/refresh
+GET /api/user/refresh
 Headers:
     Authorization: Basic <token>
 Returns if succeed: 
@@ -158,7 +158,7 @@ Returns if succeed:
 }
 ```
 
-WEBSOCKET /api/chat/live
-Use like:
-ws://localhost:8000/api/chat?token=<PASTE_HERE_JWT_TOKEN>
-It allows to connect with websocket and use livechat.
+WEBSOCKET /api/chat/live   
+Use like:   
+ws://localhost:8000/api/chat?token=<PASTE_HERE_JWT_TOKEN>   
+It allows to connect with websocket and use livechat.    

@@ -37,12 +37,13 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Printf("Error: %v", err)
 			delete(clients, ws)
+		} else {
+			// Save to DB
+			userId := r.Context().Value("userId").(uint)
+			user := models.GetUser(uint(userId))
+			msg.Save(user.ID, user.Name)
 		}
 
-		// Save to DB
-		userId := r.Context().Value("userId").(uint)
-		user := models.GetUser(uint(userId))
-		msg.Save(user.ID, user.Name)
 		broadcast <- msg
 	}
 }

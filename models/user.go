@@ -1,6 +1,7 @@
 package models
 
 import (
+	"database/sql/driver"
 	"errors"
 	"os"
 	"strings"
@@ -13,6 +14,11 @@ import (
 	u "github.com/filipjedrasik/crr-api/utils"
 )
 
+type NullTime struct {
+	Time  time.Time
+	Valid bool // Valid is true if Time is not NULL
+}
+
 type Token struct {
 	UserId uint
 	jwt.StandardClaims
@@ -23,10 +29,24 @@ type User struct {
 	Name          string    `json:"name"`
 	Email         string    `json:"email"`
 	Password      string    `json:"password"`
-	TicketExpires time.Time `json:"ticketExpires"`
+	TicketExpires NullTime  `json:"ticketExpires"`
 	CreatedAt     time.Time `json:"createdAt"`
 	LastVisit     time.Time `json:"lastVisit"`
 	Token         string    `gorm:"-" json:"token"`
+}
+
+// Scan implements the Scanner interface.
+func (nt *NullTime) Scan(value interface{}) error {
+	nt.Time, nt.Valid = value.(time.Time)
+	return nil
+}
+
+// Value implements the driver Valuer interface.
+func (nt NullTime) Value() (driver.Value, error) {
+	if !nt.Valid {
+		return nil, nil
+	}
+	return nt.Time, nil
 }
 
 func (user User) TableName() string {
@@ -68,6 +88,10 @@ func (user *User) Create() map[string]interface{} {
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	user.Password = string(hashedPassword)
 	user.LastVisit = time.Now().UTC()
+	user.TicketExpires = NullTime{
+		Valid: false,
+	}
+
 	GetDB().Create(user)
 
 	if user.ID <= 0 {
@@ -166,13 +190,19 @@ func BuyTicket(u uint) time.Time {
 		return time.Time{}
 	}
 
-	if user.TicketExpires.IsZero() {
-		user.TicketExpires = time.Now().AddDate(0, 0, 30).UTC()
+	if user.TicketExpires.Time.IsZero() {
+		user.TicketExpires = NullTime{
+			Time:  time.Now().AddDate(0, 0, 30).UTC(),
+			Valid: true,
+		}
 	} else {
-		user.TicketExpires = user.TicketExpires.AddDate(0, 0, 30).UTC()
+		user.TicketExpires = NullTime{
+			Time:  user.TicketExpires.Time.AddDate(0, 0, 30).UTC(),
+			Valid: true,
+		}
 	}
 
 	GetDB().Save(&user)
 
-	return user.TicketExpires
+	return user.TicketExpires.Time
 }
